@@ -38,9 +38,9 @@ public class Train {
 		List<ArrayList<Integer>> input = new ArrayList<ArrayList<Integer>>();
 		input.add(arrayList);
 		input.add(arrayList1);
-		input.add(arrayList2);
-		input.add(arrayList3);
-		input.add(arrayList4);
+//		input.add(arrayList2);
+//		input.add(arrayList3);
+//		input.add(arrayList4);
 		ArrayList<Integer> spiralOrder = train.spiralOrder(input);
 
 		System.out.println(Arrays.toString(spiralOrder.toArray()));
@@ -52,7 +52,7 @@ public class Train {
 		ArrayList<Integer> spiralResult = new ArrayList<Integer>();
 		int row = A.size();
 		int col = A.get(0).size();
-		int totalSize = row*col;
+		int totalSize = row * col;
 		int endRight = col - 1;
 		int endDown = row - 1;
 		int endLeft = 0;
@@ -60,17 +60,20 @@ public class Train {
 
 		while (totalSize > spiralResult.size()) {
 
-			// RIGHT
-			for (int i = endLeft; i < endRight; i++) {
-				spiralResult.add(A.get(endLeft).get(i));
+			if (row == 1) {
+				spiralResult = extracted(A, spiralResult, endRight + 1, endLeft);
+				break;
+			} else if (col == 1) {
+				spiralResult = extracted_Down(A, spiralResult, endRight, endDown+1, endUp);
+				break;
 			}
+			// RIGHT
+			spiralResult = extracted(A, spiralResult, endRight, endLeft);
 			if (totalSize == spiralResult.size()) {
 				break;
 			}
 			// DOWN
-			for (int i = endUp; i < endDown; i++) {
-				spiralResult.add(A.get(i).get(endRight));
-			}
+			spiralResult = extracted_Down(A, spiralResult, endRight, endDown, endUp);
 			if (totalSize == spiralResult.size()) {
 				break;
 			}
@@ -85,11 +88,27 @@ public class Train {
 			for (int i = endDown; i > endUp; i--) {
 				spiralResult.add(A.get(i).get(endUp));
 			}
-			
+
 			endRight--;
 			endDown--;
 			endLeft++;
 			endUp++;
+		}
+		return spiralResult;
+	}
+
+	private ArrayList<Integer> extracted_Down(final List<ArrayList<Integer>> A, ArrayList<Integer> spiralResult,
+			int endRight, int endDown, int endUp) {
+		for (int i = endUp; i < endDown; i++) {
+			spiralResult.add(A.get(i).get(endRight));
+		}
+		return spiralResult;
+	}
+
+	private ArrayList<Integer> extracted(final List<ArrayList<Integer>> A, ArrayList<Integer> spiralResult,
+			int endRight, int endLeft) {
+		for (int i = endLeft; i < endRight; i++) {
+			spiralResult.add(A.get(endLeft).get(i));
 		}
 		return spiralResult;
 	}
