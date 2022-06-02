@@ -39,7 +39,6 @@ public class Train {
 		arrayList4.add(23);
 		arrayList4.add(24);
 		arrayList4.add(25);
-		
 
 		List<ArrayList<Integer>> input = new ArrayList<ArrayList<Integer>>();
 		input.add(arrayList);
@@ -66,38 +65,29 @@ public class Train {
 
 		while (totalSize > spiralResult.size()) {
 
-			if (row == 1) {
-				spiralResult = extracted(A, spiralResult, endRight + 1, endLeft);
-				break;
-			} else if (col == 1) {
-				spiralResult = extracted_Down(A, spiralResult, endRight, endDown+1, endUp);
-				break;
-			}
 			// RIGHT
-			spiralResult = extracted(A, spiralResult, endRight, endLeft);
+			for (int i = endLeft; i <= endRight; i++) {
+				spiralResult.add(A.get(endLeft).get(i));
+			}
 			if (totalSize == spiralResult.size()) {
 				break;
 			}
 			// DOWN
-			spiralResult = extracted_Down(A, spiralResult, endRight, endDown, endUp);
+			for (int i = endUp+1; i <= endDown; i++) {
+				spiralResult.add(A.get(i).get(endRight));
+			}
 			if (totalSize == spiralResult.size()) {
 				break;
 			}
 			// LEFT
-			if ( endRight == endLeft ) {
-				endLeft--;
-			}
-			for (int i = endRight; i > endLeft; i--) {
+			for (int i = endRight-1; i >= endLeft; i--) {
 				spiralResult.add(A.get(endDown).get(i));
 			}
 			if (totalSize == spiralResult.size()) {
 				break;
 			}
 			// UP
-			if ( endUp == endDown ) {
-				endUp--;
-			}
-			for (int i = endDown; i > endUp; i--) {
+			for (int i = endDown-1; i > endUp; i--) {
 				spiralResult.add(A.get(i).get(endUp));
 			}
 
@@ -105,28 +95,6 @@ public class Train {
 			endDown--;
 			endLeft++;
 			endUp++;
-		}
-		return spiralResult;
-	}
-
-	private ArrayList<Integer> extracted_Down(final List<ArrayList<Integer>> A, ArrayList<Integer> spiralResult,
-			int endRight, int endDown, int endUp) {
-		if ( endUp == endDown ) {
-			endDown++;
-		}
-		for (int i = endUp; i < endDown; i++) {
-			spiralResult.add(A.get(i).get(endRight));
-		}
-		return spiralResult;
-	}
-
-	private ArrayList<Integer> extracted(final List<ArrayList<Integer>> A, ArrayList<Integer> spiralResult,
-			int endRight, int endLeft) {
-		if ( endLeft == endRight ) {
-			endRight++;
-		}
-		for (int i = endLeft; i < endRight; i++) {
-			spiralResult.add(A.get(endLeft).get(i));
 		}
 		return spiralResult;
 	}
